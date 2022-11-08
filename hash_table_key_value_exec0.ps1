@@ -15,9 +15,9 @@ $full_path_file3 = get-childitem  hash_table_key_value_display.ps1  | select-obj
 . $full_path_file2
 . $full_path_file3
 #>
-. C:\Users\kolo0\Dropbox\Everything\Classes\my_notes\programming\cmd\ps_scripts\scrpt_cls\hash_table_key_value\array_elem_position_comb.ps1
-. C:\Users\kolo0\Dropbox\Everything\Classes\my_notes\programming\cmd\ps_scripts\scrpt_cls\hash_table_key_value\hash_table_key_value_maker.ps1
-. C:\Users\kolo0\Dropbox\Everything\Classes\my_notes\programming\cmd\ps_scripts\scrpt_cls\hash_table_key_value\hash_table_key_value_display.ps1
+. H:\auto\PS\W_H_S\hash_table_key_multivalue\array_elem_position_comb.ps1
+. H:\auto\PS\W_H_S\hash_table_key_multivalue\hash_table_key_value_maker.ps1
+. H:\auto\PS\W_H_S\hash_table_key_multivalue\hash_table_key_value_display.ps1
 #
 # -----------------------------------------------
 # operation center:
@@ -71,13 +71,38 @@ display-hashtable ($TableKeyList)
 
 
 # ------------------------------ 
-<# 
 # makeing the HashTable an object:
-$Object_from_table = [pscustomobject]$TableKeyList
-write-host $Object_from_table
+#$Object_from_table = [pscustomobject]$TableKeyList | ConvertTo-Csv 
+#write-host $Object_from_table
 
-$csv_path = "temp_test_csv_.csv"
-$Object_from_table |export-csv  -path $csv_path
+# hashtable to csv
+#$csv_path = "temp_test_csv_.csv"
+#$TableKeyList.GetEnumerator() | foreach-object {$_.name} |foreach-object {$_} | export-csv  -notypeinformation -path $csv_path
+#$TableKeyList.GetEnumerator()|foreach-object {$_.key, $_.value} | export-csv  -notypeinformation -path $csv_path
+#$json = $TableKeyList| ConvertTo-Json -Depth 2
+#$json
+#invoke-item -path $csv_path
+
+# try hashtable with for loop to create scv but DOES NOT WORK 
+<#
+for ($i=0; $i -lt $TableKeyList.count; $i++)
+	{
+	#write-host "key = " $list_key[$i]
+	export-csv -notypeinformation -path $csv_path [pscustomobject]$TableKeyList[$list_key[$i]] 
+	#rite-host $TableKeyList[$i].key.gettype()
+	for ($j=0; $j -lt $TableKeyList[$list_key[$i]].count; $j++)
+		{ 
+	#	$TableKeyList[$list_key[$i]][$j] | export-csv -notypeinformation -path $csv_path -append
+		}
+
+	}
+
 invoke-item -path $csv_path
+#>
+
+# object to scv
+#$csv_path = "temp_test_csv_.csv"
+#$Object_from_table |export-csv  -path $csv_path
+#invoke-item -path $csv_path
 # ------------------------------
 #>

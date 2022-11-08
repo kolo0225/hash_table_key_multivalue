@@ -66,6 +66,8 @@ function display-hashtable ($TableKeyList)
 
 		}
 
+	$json = $TableKeyList| ConvertTo-Json -Depth 2
+	write-host $json -backgroundcolor Yellow -foregroundcolor Black
 
 	}
 
