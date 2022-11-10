@@ -1,0 +1,4 @@
+gender
+man male
+girl female
+boy male

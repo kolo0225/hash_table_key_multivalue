@@ -23,7 +23,7 @@ function make-matrix ()
 	$valueJ_filename   = 'hash_table_value_var_colJ.txt'
 
 	[System.Collections.Generic.List[String]]$list_valueA  = get-content $valueA_filename
-	[System.Collections.Generic.List[int]]$list_valueB  = get-content $valueB_filename
+	[System.Collections.Generic.List[string]]$list_valueB  = get-content $valueB_filename
 	[System.Collections.Generic.List[string]]$list_valueC  = get-content $valueC_filename
 	[System.Collections.Generic.List[string]]$list_valueD  = get-content $valueD_filename
 	[System.Collections.Generic.List[string]]$list_valueE  = get-content $valueE_filename
@@ -64,19 +64,26 @@ function make-matrix ()
 	
 	# number of columns (file.txt) total
 	# number of rows (entries max in file.txt)
-	$row_max = 0
+	$col_max = 0
 	for ($i=0; $i -lt  $list_tot.count; $i++)
 		{
 		#write-output $list_tot[$i].count
+		#write-host $list_tot[$i].count '  -col, count' # this is the total number of rows
+		#write-host $list_tot[$i].length '  -col, length' # this is the total number of rows
+		#write-host ($i+1) '  -total number of rows'
+		#write-host $list_tot[$i]
 		if ($list_tot[$i].count -ne 0)
 			{
-			$row_count = $i+1 # plus on since count starts at 1 no 0
-
-			$col_count = $list_tot[$i].count
-			#write-host $col_count
-			if ($row_max -lt  $col_count)
+			if ($list_tot[$i].length -ne 0)
 				{
-				$row_max = $col_count
+				$row_count = $i+1 # plus on since count starts at 1 no 0
+
+				$col_count = $list_tot[$i].count
+				#write-host $col_count
+				if ($col_max -lt  $col_count)
+					{
+					$col_max = $col_count
+					}
 				}
 			}
 		}
@@ -84,9 +91,9 @@ function make-matrix ()
 
 	# Testing number of rows and number of col in 
 	# -----------------------------
-	#write-host $row_count  # this is the total number of cols
+	#write-host $row_count  '  -row' # this is the total number of rows
 	#write-host $col_count  
-	#write-host $row_max  # this is the total number of rows
+	#write-host $col_max    '  -col' # this is the total number of cols
 	# --------------------------------------------------------
 
 	[system.collections.arraylist]$list_tot_trim = @()
@@ -95,9 +102,17 @@ function make-matrix ()
 		#write-output $list_tot[$i].count
 		if ($list_tot[$i].count -ne 0)
 			{
-			[void]$list_tot_trim.add($list_tot[$i])
 
-			#write-host $list_tot_trim
+			if ($list_tot[$i].length -ne 0)
+				{
+				[void]$list_tot_trim.add($list_tot[$i])
+
+				#write-host $list_tot[$i].count '  -col, count' # this is the total number of rows
+				#write-host $list_tot[$i].length '  -col, length' # this is the total number of rows
+				#write-host ($i+1) '  -total number of rows'
+				#write-host $list_tot[$i]
+				#write-host $list_tot_trim
+				}
 			}
 		}
 
@@ -123,7 +138,7 @@ function make-matrix ()
 	#combined lists are trimed (empty lists are excluded)
 	[System.Collections.ArrayList]$list_tot_mixed = @()
 		
-	for ($i=0; $i -lt $row_max; $i++)
+	for ($i=0; $i -lt $col_max; $i++)
 		{
 		$ext = [string]$i
 		$oneDlist = 'list_mixed_' + $ext + '_'
