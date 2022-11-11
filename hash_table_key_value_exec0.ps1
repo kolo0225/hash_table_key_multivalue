@@ -7,18 +7,14 @@
 # Imported scripts: 
 #--------------------
 # "." is used in order to be able to call specific functions in the script
-<#
-$full_path_file1 = get-childitem  array_elem_position_comb.ps1  | select-object fullname
-$full_path_file2 = get-childitem  hash_table_key_value_maker.ps1  | select-object fullname
-$full_path_file3 = get-childitem  hash_table_key_value_display.ps1  | select-object fullname
+
+$full_path_file1 = (get-childitem  array_elem_position_comb.ps1).fullname
+$full_path_file2 = (get-childitem  hash_table_key_value_maker.ps1).fullname
+$full_path_file3 = (get-childitem  hash_table_key_value_display.ps1).fullname
 . $full_path_file1
 . $full_path_file2
 . $full_path_file3
-#>
-. H:\auto\PS\W_H_S\hash_table_key_multivalue\array_elem_position_comb.ps1
-. H:\auto\PS\W_H_S\hash_table_key_multivalue\hash_table_key_value_maker.ps1
-. H:\auto\PS\W_H_S\hash_table_key_multivalue\hash_table_key_value_display.ps1
-#
+
 # -----------------------------------------------
 # operation center:
 # -----------------------------------------------
@@ -76,9 +72,10 @@ display-hashtable ($TableKeyList)
 #write-host $Object_from_table
 
 # hashtable to csv
-#$csv_path = "temp_test_csv_.csv"
-#$TableKeyList.GetEnumerator() | foreach-object {$_.name} |foreach-object {$_} | export-csv  -notypeinformation -path $csv_path
-#$TableKeyList.GetEnumerator()|foreach-object {$_.key, $_.value} | export-csv  -notypeinformation -path $csv_path
+$csv_path = "temp_test_csv_.csv"
+$json_path = "temp_test_json_.json"
+#$TableKeyList.GetEnumerator() | foreach-object {$_.} |foreach-object {$_} | export-csv  -notypeinformation -path $csv_path
+#$TableKeyList.GetEnumerator()|foreach-object {$_[1]} | export-csv  -notypeinformation -path $csv_path
 #$json = $TableKeyList| ConvertTo-Json -Depth 2
 #$json
 #invoke-item -path $csv_path
@@ -105,4 +102,13 @@ invoke-item -path $csv_path
 #$Object_from_table |export-csv  -path $csv_path
 #invoke-item -path $csv_path
 # ------------------------------
+#>
+<#
+# convert to jpson ->convert to csv
+$json = $TableKeyList| ConvertTo-Json -Depth 2
+$json| out-file -FilePath $json_path
+Get-Content -path $json_path | ConvertFrom-Json | foreach-object {System.Object[$_]}|ConvertTo-Csv | Out-File $csv_path
+
+#invoke-item -path $json_path
+invoke-item -path $csv_path
 #>
