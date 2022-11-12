@@ -32,20 +32,22 @@ function display-hashtable ($TableKeyList)
 
 	# ----------------------------------------------------------------------------
 	# this display values for a single value (key = value) hash tatble`
-	write-output "`n loops through single value (key = value) hash tatble"
+	write-output "`n loops through single value (key = value) hash table"
 
 	# can't modify a hashtable while it's being enumerated
+	$index=0
 	$TableKeyList.keys | ForEach-Object {
-		$message = 'key {0} value: {1}'  -f $_, $TableKeyList[$_]
+		$message = 'key {0} value: {1}'  -f $_, $TableKeyList[$_][$index]
 		Write-Output $message
 		}
 
 	write-output "`n loops through the table and type"
 
+	$index=2
 	# can't modify a hashtable while it's being enumerated
 	$TableKeyList.GetEnumerator() | ForEach-Object {
 		$message = 'key {0}  key_type: {1} 
-			value: {2} value_type: {3} ' -f $_.key, $_.key.GetType(), $_.value, $_.value.GetType()
+			value: {2} value_type: {3} ' -f $_.key, $_.key.GetType(), $_.value[$index], $_.value[$index].GetType()
 		Write-Output $message
 		}
 	# ----------------------------------------------------------------------------
