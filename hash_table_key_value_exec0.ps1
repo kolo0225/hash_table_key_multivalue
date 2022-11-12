@@ -63,7 +63,7 @@ $list_tot_mixed = make-matrix
 # ------------------------------
 
 $TableKeyList = array-loop $list_key $list_tot_mixed $method 
-display-hashtable ($TableKeyList)
+display-hashtable $TableKeyList
 
 
 # ------------------------------ 
